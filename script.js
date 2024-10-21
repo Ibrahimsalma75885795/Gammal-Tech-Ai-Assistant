@@ -3,17 +3,32 @@ const chatBox = document.getElementById("chat-box");
 const userInput = document.getElementById("user-input");
 const sendBtn = document.getElementById("send-btn");
 
-// Predefined responses for Gammal Tech's 100 specific queries
+// Predefined responses for 100 specific queries and greetings
 function getAIResponse(userMessage) {
     const trimmedMessage = userMessage.trim().toLowerCase();
 
     const responses = {
+        // Greetings
+        "hi": "Hello! How can I assist you today?",
+        "hello": "Hi there! What can I help you with?",
+        "good morning": "Good morning! Hope you’re ready to learn something new today!",
+        "good afternoon": "Good afternoon! How can I assist you at Gammal Tech?",
+        "good evening": "Good evening! What would you like to know about Gammal Tech?",
+        "how are you": "I'm just a bot, but I’m here and ready to help you!",
+        "hey": "Hey! How can I help?",
+        "good day": "Good day! How can Gammal Tech assist you today?",
+
+        // Farewell/Ending
+        "bye": "Goodbye! Don't hesitate to reach out if you need any more help.",
+        "thank you": "You're welcome! Let me know if there’s anything else I can assist you with.",
+        "thanks": "No problem! Feel free to ask if you have any more questions.",
+        "see you later": "See you later! Have a great day ahead!",
+        "goodbye": "Goodbye! Have a great day!",
+        "take care": "Take care! Let us know if you need any more information.",
+        "talk to you later": "Talk to you later! Always here to help you.",
+        "have a nice day": "You too! Don't hesitate to reach out for any assistance.",
+
         // Course Suggestions
-        "Hi": "Hi How can i help you today?",
-        "Hello": "Hello How can i help you today?",
-        "Good Morning": "Good Morning How can i help you today?",
-        "Good Afternoon": "Good Afternoon How can i help you today?",
-        "Good Evening": "Good Evening How can i help you today?",
         "what new courses should we add?": "Gammal Tech could benefit from adding courses on AI, Machine Learning, Blockchain, and Cloud Computing. These topics are in high demand and growing fast.",
         "what programming languages should we focus on?": "Focus on Python, JavaScript, and Go. Python is essential for AI and data science, JavaScript is great for web development, and Go is gaining traction for cloud and distributed systems.",
         "should we add a kotlin course?": "Yes, Kotlin is increasingly popular due to its use in Android development. Adding a course would attract mobile developers.",
@@ -36,18 +51,6 @@ function getAIResponse(userMessage) {
         "how can we increase student retention?": "You can improve retention by offering personalized learning plans, student mentorship programs, and by creating a community where students can engage with peers and instructors.",
         "how do we attract international students?": "Provide localized versions of your courses in different languages and offer certificates recognized by international employers.",
         "should we add certification for our courses?": "Yes, adding certification for your courses will increase their value for students, especially for those looking to add qualifications to their resumes.",
-        
-        // Technological Trends
-        "should we explore ai-driven education?": "Absolutely. AI-driven personalized learning can adapt courses to each student's learning style and pace, providing a more effective learning experience.",
-        "is vr education viable for us?": "Yes, VR education could be a unique selling point, especially for topics like 3D modeling, architecture, and interactive coding environments.",
-        "should we adopt adaptive learning technologies?": "Yes, adaptive learning systems that adjust content based on the student's performance can make learning more efficient and personalized.",
-        "how important is machine learning for our courses?": "Very important. Machine learning is one of the fastest-growing fields and is in high demand across industries. Offering hands-on, project-based machine learning courses could be a significant boost.",
-        "should we invest in quantum computing courses?": "Yes, quantum computing is an emerging field with a lot of future potential. Starting with introductory courses on quantum algorithms and quantum hardware can position Gammal Tech as an early leader in this space.",
-        "what role should cloud computing play in our courses?": "Cloud computing is vital for modern software development. Offering courses on cloud infrastructure, DevOps, and cloud-native development will be highly beneficial.",
-        "is there a future for ai in education?": "Yes, AI will play a massive role in the future of education. AI can help personalize learning, automate grading, and offer real-time feedback, making it essential to your growth.",
-        "should we teach robotic process automation?": "Yes, Robotic Process Automation (RPA) is being adopted by many industries for automating routine tasks. Offering a course on RPA tools like UiPath or Blue Prism would be valuable.",
-        "is augmented reality education worth exploring?": "Yes, AR can enhance learning experiences by making them more interactive, especially in fields like anatomy, engineering, and architecture.",
-        "should we offer deep learning courses?": "Yes, deep learning is a critical part of AI. Offering advanced deep learning courses covering TensorFlow, Keras, and PyTorch could attract tech enthusiasts and professionals.",
 
         // Internal Improvements
         "how can we improve our course materials?": "Focus on creating more interactive content, such as quizzes, coding challenges, and hands-on projects. Offering additional resources like cheat sheets and summary videos can also help.",
@@ -59,38 +62,7 @@ function getAIResponse(userMessage) {
         "how can we make our platform more interactive?": "Add features like interactive code editors, peer-to-peer discussions, and leaderboards to make the learning experience more engaging.",
         "should we add mentoring programs?": "Yes, mentoring programs could be highly valuable. Assign mentors to students to help them stay motivated and on track.",
         "should we create forums for students?": "Yes, forums where students can interact, ask questions, and share knowledge will foster a sense of community and improve engagement.",
-        "should we offer internships to students?": "Yes, offering internship opportunities as part of your courses would be an excellent way to attract more students and improve the real-world relevance of your curriculum.",
-
-        // Pricing and Business Strategy
-        "should we offer more affordable courses?": "Yes, offering tiered pricing with more affordable options for beginners and premium courses for advanced learners can attract a wider range of students.",
-        "should we offer subscription models?": "Yes, a subscription model could provide a consistent revenue stream while allowing students to access a range of courses for a monthly fee.",
-        "what pricing models should we adopt?": "You could adopt a tiered pricing model with free introductory courses, mid-tier pricing for certification courses, and premium pricing for specialized or advanced topics.",
-        "should we offer payment plans for courses?": "Yes, offering payment plans can make your courses more accessible to a broader audience, especially for high-priced, specialized courses.",
-        "should we offer discounts for students?": "Yes, offering student discounts, especially for university students, can help increase enrollments and build long-term loyalty.",
-        "should we offer lifetime access to courses?": "Yes, offering lifetime access to courses would provide additional value for students who want to revisit the material whenever they need it.",
-        "should we run special promotions?": "Yes, running limited-time promotions, especially during holidays or back-to-school seasons, can significantly increase course sign-ups.",
-        "should we focus more on B2B or B2C?": "Consider a mix of both. B2C can provide steady revenue from individual students, but B2B partnerships can offer larger deals by offering corporate training solutions.",
-        "how can we expand globally?": "Localize your content, offer multi-language support, and collaborate with international universities or companies to expand your global reach.",
-        "should we offer white-label courses for companies?": "Yes, offering white-label courses for companies that can integrate Gammal Tech's content into their internal training programs could open up a new revenue stream.",
-        
-        // Analytics and Data
-        "what data should we collect from students?": "You should collect data on course engagement, completion rates, time spent per module, and feedback to continuously improve the learning experience.",
-        "how can we use data to improve courses?": "Analyze data such as drop-off points in courses, time spent on certain modules, and quiz performance to identify areas where students are struggling and make improvements.",
-        "should we track student progress?": "Yes, tracking student progress and providing them with a dashboard of their achievements and areas of improvement will help them stay motivated and on track.",
-        "how can we use feedback to improve?": "Use feedback surveys at the end of each module and course to gather insights on what students liked and what needs improvement. Analyze trends to identify common issues.",
-        "should we analyze course completion rates?": "Yes, analyzing course completion rates can help you identify courses that might need restructuring or additional support to ensure students finish them.",
-        "should we track industry trends?": "Absolutely. Keeping an eye on industry trends can help Gammal Tech stay ahead of the curve and offer courses in emerging fields.",
-        "should we conduct market research?": "Yes, conducting regular market research will help you identify what skills are in demand and allow you to update your course catalog accordingly.",
-        "should we monitor competitor pricing?": "Yes, keeping an eye on competitor pricing will help you stay competitive and offer courses at attractive prices.",
-        "how can we use AI for course recommendations?": "Implement AI-driven algorithms to suggest personalized courses to students based on their performance, interests, and career goals.",
-        "how can we use AI to improve the platform?": "You can use AI for personalized learning paths, automated grading, chatbots for student support, and real-time analytics to improve the learning experience.",
-
-        // Miscellaneous
-        "what skills will be in demand in 2025?": "In 2025, skills in AI, Machine Learning, Blockchain, Cloud Computing, and Cybersecurity will be in high demand across industries.",
-        "what technologies should we keep an eye on?": "Keep an eye on AI, Quantum Computing, Edge Computing, 5G technology, and Augmented Reality, as they are expected to shape the future of tech.",
-        "should we invest in ai for grading?": "Yes, AI-driven grading can significantly reduce the time required for assessments and provide students with instant feedback.",
-        "should we offer ai chatbots for student support?": "Yes, AI chatbots can provide real-time assistance to students, answering common questions and guiding them through course material.",
-        "how important is mobile accessibility for courses?": "Very important. Ensuring that courses are mobile-friendly will help increase engagement, as many students prefer learning on their phones."
+        "should we offer internships to students?": "Yes, offering internship opportunities as part of your courses would be an excellent way to attract more students and improve the real-world relevance of your curriculum."
     };
 
     // Return predefined response or a default message
