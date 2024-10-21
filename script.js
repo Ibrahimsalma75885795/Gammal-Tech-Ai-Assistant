@@ -3,9 +3,9 @@ const chatBox = document.getElementById("chat-box");
 const userInput = document.getElementById("user-input");
 const sendBtn = document.getElementById("send-btn");
 
-// Predefined responses for 100 specific queries and greetings
+// Predefined responses for greetings, farewells, and 100 specific queries
 function getAIResponse(userMessage) {
-    const trimmedMessage = userMessage.trim().toLowerCase();
+    const trimmedMessage = userMessage.trim().toLowerCase();  // Ensure case-insensitive matching and trim spaces
 
     const responses = {
         // Greetings
